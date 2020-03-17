@@ -1,6 +1,7 @@
 plugins {
     id("java-gradle-plugin")
     id("com.adarshr.test-logger") version ("2.0.0")
+    id("com.gradle.plugin-publish") version ("0.10.1")
 }
 
 group = "com.nocwriter.runsql"
@@ -26,11 +27,16 @@ sourceSets {
     }
 }
 
+//
+// Plugin configuration.
+//
 gradlePlugin {
     // Register a plugin.
     plugins {
         create("runSQLPlugin") {
             id = "com.nocwriter.runsql"
+            displayName = "Run SQL scripts"
+            description = "This plugins execute a SQL script on a database."
             version = "0.8"
             implementationClass = "com.nocwriter.runsql.gradle.RunSQLPlugin"
         }
@@ -38,6 +44,15 @@ gradlePlugin {
 
     // We must add the test sources available to the plugin, so it can have access to the plugin runtime.
     testSourceSets(sourceSets["test"], sourceSets["iTest"])
+}
+
+//
+// Gradle plugin publishing configuration.
+//
+pluginBundle {
+    website = "https://github.com/NocWriter/runsql-gradle-plugin"
+    vcsUrl = "https://github.com/NocWriter/runsql-gradle-plugin"
+    tags = listOf("sql", "run", "execute", "execution", "plugin")
 }
 
 //
