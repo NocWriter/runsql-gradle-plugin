@@ -5,11 +5,16 @@ plugins {
 }
 
 group = "com.nocwriter.runsql"
-version = "1.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
     jcenter()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 //
@@ -37,7 +42,7 @@ gradlePlugin {
             id = "com.nocwriter.runsql"
             displayName = "Run SQL scripts"
             description = "This plugins execute a SQL script on a database."
-            version = "1.0"
+            version = "1.0.1"
             implementationClass = "com.nocwriter.runsql.gradle.RunSQLPlugin"
         }
     }

@@ -35,6 +35,7 @@ public class ExecuteScriptITest extends GradleIntegrationTestBase {
                 .withProjectDir(testProjectDir)
                 .withArguments(":createTable", "--stacktrace", "--info")
                 .withPluginClasspath()
+                .withGradleVersion("5.6")
                 .build();
 
         dumpTestOutput(result);
@@ -63,6 +64,7 @@ public class ExecuteScriptITest extends GradleIntegrationTestBase {
         useBuildScript("/test_scripts/custom_sql_task_script");
 
         BuildResult result = GradleRunner.create()
+                .withGradleVersion("5.6")
                 .withProjectDir(testProjectDir)
                 .withArguments(":createTableOnly", "--stacktrace", "--info")
                 .withPluginClasspath()
