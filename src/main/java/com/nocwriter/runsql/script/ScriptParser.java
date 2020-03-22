@@ -1,4 +1,4 @@
-package com.nocwriter.runsql.sql;
+package com.nocwriter.runsql.script;
 
 import java.util.*;
 
@@ -8,7 +8,7 @@ import java.util.*;
  * @author Guy Raz Nir
  * @since 2020/03/14
  */
-public class SQLScriptParser {
+public class ScriptParser {
 
     /**
      * Indicates if newlines should be kept on the generated SQL statements or not. When a newline is kept, a statement
@@ -31,59 +31,18 @@ public class SQLScriptParser {
     public boolean keepNewlines = true;
 
     /**
-     * Represents an SQL statement and its first line number within the script.
+     * Class constructor.
      */
-    public static class SQLStatement {
-
-        /**
-         * Script's line number.
-         */
-        final int lineNumber;
-
-        /**
-         * SQL statement.
-         */
-        final String sql;
-
-        /**
-         * Class constructor.
-         *
-         * @param lineNumber Line number.
-         * @param sql        SQL statement.
-         */
-        public SQLStatement(int lineNumber, String sql) {
-            this.lineNumber = lineNumber;
-            this.sql = sql;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            SQLStatement that = (SQLStatement) o;
-            return lineNumber == that.lineNumber &&
-                    Objects.equals(sql, that.sql);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(lineNumber, sql);
-        }
-
-        @Override
-        public String toString() {
-            return new StringJoiner(", ", SQLStatement.class.getSimpleName() + "[", "]")
-                    .add("lineNumber=" + lineNumber)
-                    .add("sql='" + sql + "'")
-                    .toString();
-        }
+    public ScriptParser() {
     }
 
-    public SQLScriptParser() {
-
-    }
-
-    public SQLScriptParser(boolean keepNewlines) {
+    /**
+     * Class constructor.
+     *
+     * @param keepNewlines {@code true} to keep new-lines when parsing script, {@code false} to replace them with
+     *                     white space.
+     */
+    public ScriptParser(boolean keepNewlines) {
         this.keepNewlines = keepNewlines;
     }
 

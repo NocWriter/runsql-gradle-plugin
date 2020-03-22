@@ -4,10 +4,28 @@ import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public class DriverDelegator implements Driver {
+/**
+ * Internal delegator for JDBC drivers. Required due to limitation imposed by Java's {@code DriverManager}.<p>
+ * <p>
+ * By default, a driver loaded via a custom class loader which differs from the current class loader, cannot be
+ * registered by {@code DriverManager}. To overcome this problem, we create this delegator and register it on behalf
+ * of the real driver.
+ *
+ * @author Guy Raz Nir
+ * @since 2020/03/18
+ */
+class DriverDelegator implements Driver {
 
+    /**
+     * The actual driver we delegate the work to.
+     */
     private final Driver driver;
 
+    /**
+     * Class constructor.
+     *
+     * @param driver The actual driver we delegate the work to.
+     */
     public DriverDelegator(Driver driver) {
         this.driver = driver;
     }

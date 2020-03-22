@@ -1,5 +1,7 @@
-package com.nocwriter.runsql.sql;
+package com.nocwriter.runsql.script;
 
+import com.nocwriter.runsql.script.SQLStatement;
+import com.nocwriter.runsql.script.ScriptParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,24 +10,24 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Provide test cases for {@link SQLScriptParser}.
+ * Provide test cases for {@link ScriptParser}.
  *
  * @author Guy Raz Nir
  * @since 2020/03/14
  */
-public class SQLScriptParserTest {
+public class ScriptParserTest {
 
     /**
      * Instance of parser to test.
      */
-    private SQLScriptParser parser;
+    private ScriptParser parser;
 
     /**
      * Creates a new parser before each text execution, in case the parsed was altered during previous test.
      */
     @BeforeEach
     public void setUp() {
-        parser = new SQLScriptParser();
+        parser = new ScriptParser();
     }
 
     /**
@@ -35,17 +37,17 @@ public class SQLScriptParserTest {
     public void testShouldParseSimpleStatement() {
         // Test query with ending character ";".
         String queryStatement = "SELECT * FROM users;";
-        List<SQLScriptParser.SQLStatement> statements = parser.parseScript(queryStatement);
+        List<SQLStatement> statements = parser.parseScript(queryStatement);
 
         assertThat(statements).hasSize(1);
-        assertThat(statements).contains(new SQLScriptParser.SQLStatement(1, queryStatement));
+        assertThat(statements).contains(new SQLStatement(1, queryStatement));
 
         queryStatement = "SELECT * FROM users";
         statements = parser.parseScript(queryStatement);
 
         // Test query without ending character ";".
         assertThat(statements).hasSize(1);
-        assertThat(statements).contains(new SQLScriptParser.SQLStatement(1, queryStatement));
+        assertThat(statements).contains(new SQLStatement(1, queryStatement));
     }
 
     /**
@@ -56,14 +58,14 @@ public class SQLScriptParserTest {
         String queryStatement1 = "SELECT * FROM users;";
         String queryStatement2 = "SELECT * FROM projects;";
 
-        List<SQLScriptParser.SQLStatement> statements = parser.parseScript(queryStatement1 +
+        List<SQLStatement> statements = parser.parseScript(queryStatement1 +
                 "   \t\t" +
                 queryStatement2);
 
         assertThat(statements)
                 .hasSize(2)
-                .contains(new SQLScriptParser.SQLStatement(1, queryStatement1))
-                .contains(new SQLScriptParser.SQLStatement(1, queryStatement2));
+                .contains(new SQLStatement(1, queryStatement1))
+                .contains(new SQLStatement(1, queryStatement2));
     }
 
     /**
@@ -85,13 +87,13 @@ public class SQLScriptParserTest {
                 queryStatement2
         };
 
-        List<SQLScriptParser.SQLStatement> statements = parser.parseScript(queryScript);
+        List<SQLStatement> statements = parser.parseScript(queryScript);
 
         // Assert that the parser extracted 2 SQL statements on line 5 and 9.
         assertThat(statements)
                 .hasSize(2)
-                .contains(new SQLScriptParser.SQLStatement(5, queryStatement1))
-                .contains(new SQLScriptParser.SQLStatement(9, queryStatement2));
+                .contains(new SQLStatement(5, queryStatement1))
+                .contains(new SQLStatement(9, queryStatement2));
 
     }
 
@@ -108,13 +110,13 @@ public class SQLScriptParserTest {
         String queryStatement2 = "SELECT * FROM projects";
 
         String queryScript = queryStatement1 + queryStatement2;
-        List<SQLScriptParser.SQLStatement> statements = parser.parseScript(queryScript);
+        List<SQLStatement> statements = parser.parseScript(queryScript);
 
         // Assert that the parser extracted 2 SQL statements on line 5 and 9.
         assertThat(statements)
                 .hasSize(2)
-                .contains(new SQLScriptParser.SQLStatement(1, queryStatement1))
-                .contains(new SQLScriptParser.SQLStatement(1, queryStatement2));
+                .contains(new SQLStatement(1, queryStatement1))
+                .contains(new SQLStatement(1, queryStatement2));
 
 
     }

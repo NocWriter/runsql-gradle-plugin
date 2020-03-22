@@ -1,27 +1,33 @@
-package com.nocwriter.runsql;
+package com.nocwriter.runsql.gradle;
 
 import static org.assertj.core.api.Assertions.*;
 
 import com.nocwriter.runsql.gradle.InvalidOrMissingPropertyException;
-import com.nocwriter.runsql.gradle.RunSQLExtension;
-import com.nocwriter.runsql.gradle.ExtensionValidator;
+import com.nocwriter.runsql.gradle.RunSQLProperties;
+import com.nocwriter.runsql.gradle.PropertiesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ExtensionValidatorTest {
+/**
+ * Test cases for {@link PropertiesValidator}.
+ *
+ * @author Guy Raz Nir
+ * @since 2020/03/11
+ */
+public class PropertiesValidatorTest {
 
     /**
      * Plugin's extension holding properties.
      */
-    private RunSQLExtension extension;
+    private RunSQLProperties properties;
 
     /**
      * Text fixture -- creates new plugin and extension before each test.
      */
     @BeforeEach
     public void setUp() {
-        extension = new RunSQLExtension();
+        properties = new RunSQLProperties();
     }
 
     /**
@@ -30,17 +36,17 @@ public class ExtensionValidatorTest {
     @Test
     @DisplayName("Test should fai on missing extension data")
     public void testShouldFailOnMissingExtensionData() {
-        assertThatThrownBy(() -> ExtensionValidator.validateExtensionProperties(extension))
+        assertThatThrownBy(() -> PropertiesValidator.validateExtensionProperties(properties))
                 .isInstanceOf(InvalidOrMissingPropertyException.class);
     }
 
     @Test
     @DisplayName("Test should fail on invalid JDBC url")
     public void testShouldFailOnInvalidJdbcUrl() {
-        extension.username = "username";
-        extension.password = "password";
-        extension.url = "xxx:mysql://localhost:3306/";
-        assertThatThrownBy(() -> ExtensionValidator.validateExtensionProperties(extension))
+        properties.setUsername("username");
+        properties.setPassword("password");
+        properties.setUrl("xxx:mysql://localhost:3306/");
+        assertThatThrownBy(() -> PropertiesValidator.validateExtensionProperties(properties))
                 .isInstanceOf(InvalidOrMissingPropertyException.class)
                 .hasMessageContaining("Invalid")
                 .hasMessageContaining("non-JDBC");
@@ -49,10 +55,10 @@ public class ExtensionValidatorTest {
     @Test
     @DisplayName("Test should fail on missing driver class name")
     public void testShouldFailOnMissingDriverClassName() {
-        extension.username = "username";
-        extension.password = "password";
-        extension.url = "jdbc:unknowndb://localhost:3306/";
-        assertThatThrownBy(() -> ExtensionValidator.validateExtensionProperties(extension))
+        properties.setUsername("username");
+        properties.setPassword("password");
+        properties.setUrl("jdbc:unknowndb://localhost:3306/");
+        assertThatThrownBy(() -> PropertiesValidator.validateExtensionProperties(properties))
                 .isInstanceOf(InvalidOrMissingPropertyException.class)
                 .hasMessageContaining("Missing property")
                 .hasMessageContaining("driverClassName");
@@ -61,11 +67,12 @@ public class ExtensionValidatorTest {
     @Test
     @DisplayName("Test should auto-detect JDBC driver class name")
     public void testShouldAutoDetectJdbcDriverClassName() {
-        extension.username = "username";
-        extension.password = "password";
-        extension.url = "jdbc:mysql://localhost:3306/";
-        ExtensionValidator.validateExtensionProperties(extension);
+        properties.setUsername("username");
+        properties.setPassword("password");
+        properties.setUrl("jdbc:mysql://localhost:3306/");
+        properties.setScript("SELECT COUNT(*) FROM books;");
+        PropertiesValidator.validateExtensionProperties(properties);
 
-        assertThat(extension.driverClassName).isEqualTo("com.mysql.cj.jdbc.Driver");
+        assertThat(properties.getDriverClassName()).isEqualTo("com.mysql.cj.jdbc.Driver");
     }
 }

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.nocwriter.runsql"
-version = "0.8"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ gradlePlugin {
             id = "com.nocwriter.runsql"
             displayName = "Run SQL scripts"
             description = "This plugins execute a SQL script on a database."
-            version = "0.8"
+            version = "1.0"
             implementationClass = "com.nocwriter.runsql.gradle.RunSQLPlugin"
         }
     }
@@ -86,6 +86,7 @@ dependencies {
     iTestImplementation("org.junit.jupiter:junit-jupiter")
     iTestImplementation("org.assertj:assertj-core:3.15.0")
     iTestImplementation("org.hsqldb:hsqldb:2.5.0")
+    iTestImplementation("org.hsqldb:hsqldb:2.5.0:sources")
 }
 
 tasks.withType<Test> {

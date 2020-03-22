@@ -2,18 +2,29 @@ package com.nocwriter.runsql.gradle;
 
 import com.nocwriter.runsql.RunSQLException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
-public class ExtensionValidator {
+/**
+ * Some helper function to verify and manage plugin extension.
+ *
+ * @author Guy Raz Nir
+ * @since 2020/03/21
+ */
+public class PropertiesValidator {
 
     /**
      * Holds mapping between JDBC sub-protocol (e.g.: mysql) and driver class name (e.g.: 'com.mysql.jdbc.Driver').
      */
     public static final Map<String, String> jdbcDriverClassNamesLookup = loadJdbcClassNames();
+
+    /**
+     * Class logger.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(PropertiesValidator.class);
 
     /**
      * Name of classpath resource holding driver class names.
@@ -25,7 +36,7 @@ public class ExtensionValidator {
      *
      * @param extension Extension holding all properties.
      */
-    public static void validateExtensionProperties(RunSQLExtension extension) {
+    public static void validateExtensionProperties(RunSQLProperties extension) {
         if (extension.username == null) {
             throw new InvalidOrMissingPropertyException("Missing property 'username'.");
         }
@@ -57,6 +68,14 @@ public class ExtensionValidator {
 
             extension.driverClassName = detectedDriverClassName;
         }
+
+        if (extension.scriptFile != null && extension.script != null) {
+            throw new InvalidOrMissingPropertyException("You cannot specify both 'scriptFile' and 'script' properties.");
+        }
+
+        if (extension.script == null && extension.scriptFile == null) {
+            throw new InvalidOrMissingPropertyException("You must specify either 'scriptFile' or 'script'.");
+        }
     }
 
     /**
@@ -81,4 +100,5 @@ public class ExtensionValidator {
                     ex);
         }
     }
+
 }

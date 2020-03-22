@@ -2,6 +2,7 @@ package com.nocwriter.runsql;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.hsqldb.server.Server;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
@@ -41,12 +42,12 @@ public class GradleIntegrationTestBase {
     /**
      * DB credentials.
      */
-    protected static final String USERNAME = "user";
+    protected static final String USERNAME = "sa";
 
     /**
      * DB credentials.
      */
-    protected static final String PASSWORD = "password";
+    protected static final String PASSWORD = "";
 
     /**
      * DB name.
@@ -56,7 +57,7 @@ public class GradleIntegrationTestBase {
     /**
      * JDBC URL for accessing our test database.
      */
-    protected static final String URL = "jdbc:hsqldb:hsql://localhost/" + DATABASE_NAME;
+    protected static final String URL_TEMPLATE = "jdbc:hsqldb:file:%s/" + DATABASE_NAME + ";shutdown=true";
 
     /**
      * Test logger.
@@ -76,7 +77,9 @@ public class GradleIntegrationTestBase {
      * </ul>
      */
     @BeforeEach
-    public void setup() throws IOException {
+    public void setUp() throws IOException {
+        logger.info("Project dir: {}", testProjectDir.toString());
+
         // References to Gradle settings and build files (Kotlin form).
         settingsFile = new File(testProjectDir, "settings.gradle.kts");
         buildFile = new File(testProjectDir, "build.gradle.kts");
@@ -147,7 +150,7 @@ public class GradleIntegrationTestBase {
     /**
      * Starts a new embedded database server.
      */
-    protected void startDatabase() throws IOException {
+    protected void startDatabaseServer() throws IOException {
         Path tempDir = Files.createTempDirectory("run_sql_test_");
         String path = tempDir.toString();
         String databasePath = String.format("file:%s;user=%s;password=%s",
@@ -172,12 +175,16 @@ public class GradleIntegrationTestBase {
     /**
      * Stops embedded database, if it's currently running.
      */
-    protected void stopServer() {
+    protected void stopDatabaseServer() {
         if (server != null) {
             logger.info("Shutting down HSQLDB embedded server.");
             server.stop();
             server = null;
         }
+    }
+
+    protected String getUrl() {
+        return String.format(URL_TEMPLATE, testProjectDir.toString());
     }
 
 }

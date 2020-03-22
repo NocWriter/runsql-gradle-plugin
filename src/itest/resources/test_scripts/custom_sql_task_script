@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.hsqldb:hsqldb:2.5.0")
+    }
+}
+
+plugins {
+    id("java")
+    id("com.nocwriter.runsql") version ("1.0")
+}
+
+//
+// Run SQL script from an external file.
+//
+task<RunSQL>("createTable") {
+    config {
+        username = "sa"
+        password = ""
+        url = "jdbc:hsqldb:file:$projectDir/test;shutdown=true"
+        scriptFile = "/create_books_table.sql"
+    }
+}
+
+//
+// Run direct SQL script.
+//
+task<RunSQL>("createTableOnly") {
+    config {
+        username = "sa"
+        password = ""
+        url = "jdbc:hsqldb:file:$projectDir/test;shutdown=true"
+        script = "CREATE TABLE books (name VARCHAR(100));"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.hsqldb:hsqldb:2.5.0")
+}

@@ -1,0 +1,28 @@
+For Kotlin-based DSL:
+
+    task<RunSQL>("taskName") {
+        config {
+            username = "..."
+            password = "..."
+            url = "..."
+            driverClassName = "..."     // This is optional.
+
+            // Use either 'scriptFile' or 'script':
+            scriptFile = "..."
+            script = "..."
+        }
+    }
+
+You can specify multiple script files:
+
+    config {
+        scriptFile = arrayOf("script1.sql", "script2.sql", ....)
+    }
+
+You can also specify multi-line direct script:
+
+    config {
+        script = arrayOf("UPDATE users SET active = '1' WHERE id = 1;",
+                         "-- Comment line",
+                         "UPDATE users SET active = '0' WHERE id = 8;")
+    }

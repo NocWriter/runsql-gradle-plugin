@@ -3,6 +3,8 @@ package com.nocwriter.runsql.gradle;
 import com.nocwriter.runsql.jdbc.DriverManagerLogPrinter;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Plugin's main entry point.
@@ -12,13 +14,12 @@ import org.gradle.api.Project;
  */
 public class RunSQLPlugin implements Plugin<Project> {
 
+    private static final Logger logger = LoggerFactory.getLogger(RunSQLPlugin.class);
+
     @Override
     public void apply(Project project) {
-        DriverManagerLogPrinter.apply();
+        logger.info("Plugin {} created successfully for project {}", getClass().getSimpleName(), project.getName());
 
-        project.getExtensions().create("sqlProperties", RunSQLExtension.class);
-
-        // Register new task.
-        project.getTasks().create("runSQL", RunSQLTask.class);
+        project.getTasks().register("RunSQLHelp", RunSQLHelpTask.class);
     }
 }
