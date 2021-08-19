@@ -62,7 +62,7 @@ public class ScriptsReader {
             throw new ScriptRunnerException("Failed to read SQL file " + scriptFile.getAbsolutePath(), ex);
         }
 
-        return script.toArray(String[]::new);
+        return script.toArray(new String[0]);
     }
 
 
