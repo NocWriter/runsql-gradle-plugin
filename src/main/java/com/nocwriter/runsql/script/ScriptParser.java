@@ -68,7 +68,7 @@ public class ScriptParser {
             lineNumber++;
 
             // Skip empty or comment lines.
-            if (line.isBlank() || line.trim().startsWith("--")) {
+            if (line.trim().isEmpty() || line.trim().startsWith("--")) {
                 continue;
             }
 
