@@ -14,13 +14,13 @@ Firstly, you'll need to include the plugin in your build script:
 For Groovy-based DSL:
 
     plugins {
-        id "com.nocwriter.runsql" version "1.0"
+        id "com.nocwriter.runsql" version "1.0.3"
     }
 
 For Kotlin-based DSL:
 
     plugins {
-        id("com.nocwriter.runsql") version ("1.0")
+        id("com.nocwriter.runsql") version ("1.0.3")
     }
     
 Next, you'll need to create a custom task:
@@ -107,4 +107,7 @@ should open the
 page and leave a message over there (with E-mail to contact you back).
 
 I don't publish my E-mail address directly, as bots tend to abuse it.
- 
+
+Contributors
+------------
+Thanks to @falkoschumann for suggesting adjustments in favor of Java 8 compatability.
