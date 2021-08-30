@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -120,7 +121,7 @@ public class JdbcUtils {
         StringBuilder buf = new StringBuilder();
         buf.append("Detected JDBC drivers:\n");
         List<String> availableDrivers = new LinkedList<>();
-        DriverManager.drivers().forEach(driver -> {
+        Collections.list(DriverManager.getDrivers()).forEach(driver -> {
             String location = driver.getClass().getResource("/" + driver.getClass().getName().replace('.', '/') + ".class").toString();
             String[] locationParts = location.split("!");
             String[] pathParts = locationParts[0].split("/");
