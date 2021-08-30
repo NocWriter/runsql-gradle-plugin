@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,6 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SuppressWarnings("SqlNoDataSourceInspection")
 public class ExecuteScriptITest extends GradleIntegrationTestBase {
+
+    /**
+     * Gradle version to test with.
+     */
+    private static final String REQUIRED_GRADLE_VERSION = "6.9";
+
 
     /**
      * Execute a Gradle build process (in another process) to execute a SQL script. The script is applied on
@@ -35,7 +40,7 @@ public class ExecuteScriptITest extends GradleIntegrationTestBase {
                 .withProjectDir(testProjectDir)
                 .withArguments(":createTable", "--stacktrace", "--info")
                 .withPluginClasspath()
-                .withGradleVersion("5.6")
+                .withGradleVersion(REQUIRED_GRADLE_VERSION)
                 .build();
 
         dumpTestOutput(result);
@@ -64,7 +69,7 @@ public class ExecuteScriptITest extends GradleIntegrationTestBase {
         useBuildScript("/test_scripts/custom_sql_task_script");
 
         BuildResult result = GradleRunner.create()
-                .withGradleVersion("5.6")
+                .withGradleVersion(REQUIRED_GRADLE_VERSION)
                 .withProjectDir(testProjectDir)
                 .withArguments(":createTableOnly", "--stacktrace", "--info")
                 .withPluginClasspath()

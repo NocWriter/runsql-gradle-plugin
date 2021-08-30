@@ -1,17 +1,12 @@
 package com.nocwriter.runsql.script;
 
 import com.nocwriter.runsql.gradle.ScriptObject;
-import com.nocwriter.runsql.script.ScriptParser;
-import com.nocwriter.runsql.script.ScriptRunner;
 import org.assertj.core.api.Assertions;
-import org.hsqldb.server.ServerAcl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.sql.*;
 
 

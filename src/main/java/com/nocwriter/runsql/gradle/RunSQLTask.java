@@ -1,19 +1,12 @@
 package com.nocwriter.runsql.gradle;
 
-import com.nocwriter.runsql.RunSQLException;
 import com.nocwriter.runsql.jdbc.JdbcUtils;
 import com.nocwriter.runsql.script.ScriptParser;
 import com.nocwriter.runsql.script.ScriptRunner;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ResolvedArtifact;
-import org.gradle.api.artifacts.ResolvedConfiguration;
 import org.gradle.api.tasks.TaskAction;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,7 +19,7 @@ import java.util.List;
  */
 public class RunSQLTask extends DefaultTask {
 
-    private RunSQLProperties props = new RunSQLProperties();
+    private final RunSQLProperties props = new RunSQLProperties();
 
     /**
      * Triggers an action for configuring {@link RunSQLProperties}.

@@ -1,4 +1,4 @@
-import com.nocwriter.runsql.gradle.*;
+import com.nocwriter.runsql.gradle.RunSQLTask;
 
 /**
  * Gradle task to execute query.

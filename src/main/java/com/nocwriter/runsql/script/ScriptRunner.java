@@ -4,7 +4,9 @@ import com.nocwriter.runsql.gradle.ScriptObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Executes SQL scripts.

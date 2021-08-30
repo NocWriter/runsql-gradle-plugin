@@ -12,8 +12,6 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Collection of JDBC utilities.
@@ -42,7 +40,7 @@ public class JdbcUtils {
     /**
      * Load JDBC driver from a given URL.
      *
-     * @param jarsUrls        Collection of URL to try try and load from, typically a .jar files.
+     * @param jarsUrls        Collection of URL to try and load from, typically a .jar files.
      * @param driverClassName Driver class name.
      * @return Driver class ready for use.
      */
@@ -117,12 +115,13 @@ public class JdbcUtils {
     /**
      * Print all detected JDBC drivers. Useful for troubleshooting.
      */
+    @SuppressWarnings("ConstantConditions")
     protected static void printAvailableJDBCDrivers() {
         StringBuilder buf = new StringBuilder();
         buf.append("Detected JDBC drivers:\n");
-        List<String> availableDrivers = new LinkedList<>();
         Collections.list(DriverManager.getDrivers()).forEach(driver -> {
-            String location = driver.getClass().getResource("/" + driver.getClass().getName().replace('.', '/') + ".class").toString();
+            String driverClassPath = "/" + driver.getClass().getName().replace('.', '/') + ".class";
+            String location = driver.getClass().getResource(driverClassPath).toString();
             String[] locationParts = location.split("!");
             String[] pathParts = locationParts[0].split("/");
             String lastPart = pathParts[pathParts.length - 1];

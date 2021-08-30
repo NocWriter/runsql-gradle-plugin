@@ -1,6 +1,8 @@
 package com.nocwriter.runsql.script;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Parses an SQL script and extract SQL statements. Lines are that are either empty or comment lines are discarded.
@@ -23,7 +25,7 @@ public class ScriptParser {
      *     users;
      * </pre>
      * <p>
-     * If this flag is set to {@code false}, the generate SQL statement of the above snippet will be:
+     * If this flag is set to {@code false}, the generated SQL statement of the above snippet will be:
      * <pre>
      *     SELECT * FROM users;
      * </pre>

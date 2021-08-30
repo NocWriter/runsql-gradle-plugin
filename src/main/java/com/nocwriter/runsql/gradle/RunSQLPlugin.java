@@ -1,6 +1,5 @@
 package com.nocwriter.runsql.gradle;
 
-import com.nocwriter.runsql.jdbc.DriverManagerLogPrinter;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.slf4j.Logger;

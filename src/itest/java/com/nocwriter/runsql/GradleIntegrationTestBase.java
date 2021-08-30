@@ -2,7 +2,6 @@ package com.nocwriter.runsql;
 
 import org.gradle.testkit.runner.BuildResult;
 import org.hsqldb.server.Server;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.slf4j.Logger;
@@ -12,6 +11,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Base class for integration tests. Provides fixture (creates temporary settings and build file) and provide various
@@ -116,12 +117,13 @@ public class GradleIntegrationTestBase {
     protected void copy(String classpathResource, String localResource) throws IOException {
         Path targetResource = Paths.get(testProjectDir.getAbsolutePath(), localResource);
         try (InputStream in = getClass().getResourceAsStream(classpathResource)) {
+            assert in != null;
             Files.copy(in, targetResource);
         }
     }
 
     /**
-     * Use a local classpath resource as the build script. Useful for writing the script outside of the test.
+     * Use a local classpath resource as the build script. Useful for writing the script outside the test.
      *
      * @param classpathResource Classpath resource.
      * @throws IOException If any I/O error occurs during read/write.
@@ -129,8 +131,11 @@ public class GradleIntegrationTestBase {
     protected void useBuildScript(String classpathResource) throws IOException {
         String contents;
         try (InputStream in = ExecuteScriptITest.class.getResourceAsStream(classpathResource)) {
-            byte[] data = in.readAllBytes();
-            contents = new String(data);
+            assert in != null;
+
+            byte[] data = new byte[10 * 1024];
+            int numberOfBytes = in.read(data);
+            contents = new String(data, 0, numberOfBytes);
         }
 
         writeFile(buildFile, contents);
@@ -154,7 +159,7 @@ public class GradleIntegrationTestBase {
         Path tempDir = Files.createTempDirectory("run_sql_test_");
         String path = tempDir.toString();
         String databasePath = String.format("file:%s;user=%s;password=%s",
-                tempDir.toString(),
+                tempDir,
                 USERNAME,
                 PASSWORD);
 

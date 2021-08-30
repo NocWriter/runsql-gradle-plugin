@@ -1,13 +1,11 @@
 package com.nocwriter.runsql.gradle;
 
-import static org.assertj.core.api.Assertions.*;
-
-import com.nocwriter.runsql.gradle.InvalidOrMissingPropertyException;
-import com.nocwriter.runsql.gradle.RunSQLProperties;
-import com.nocwriter.runsql.gradle.PropertiesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Test cases for {@link PropertiesValidator}.

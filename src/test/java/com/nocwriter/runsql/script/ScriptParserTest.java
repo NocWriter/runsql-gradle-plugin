@@ -1,7 +1,5 @@
 package com.nocwriter.runsql.script;
 
-import com.nocwriter.runsql.script.SQLStatement;
-import com.nocwriter.runsql.script.ScriptParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
