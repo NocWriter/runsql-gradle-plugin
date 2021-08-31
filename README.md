@@ -93,7 +93,7 @@ As of now, it supports the following: PostgreSQL, MySQL, Oracle, DB2, Sybase, HS
 
 System requirements
 -------------------
-The plugin requires Java 8 and above and Gradle 5.4 or above.
+The plugin requires Java 8 and above and Gradle 6.9 or above.
 
 License
 -------

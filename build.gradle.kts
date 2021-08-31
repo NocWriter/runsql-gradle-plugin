@@ -1,3 +1,9 @@
+import org.gradle.util.GradleVersion
+
+object Constants {
+    const val MIN_GRADLE_VERSION: String = "6.9"
+}
+
 plugins {
     id("java-gradle-plugin")
     id("com.adarshr.test-logger") version ("2.0.0")
@@ -128,3 +134,10 @@ testlogger {
     showSkippedStandardStreams = true
     showFailedStandardStreams = true
 }
+
+// Make sure we're running with Gradle V6.9 or above.
+var minGradleVersionRequired: GradleVersion = GradleVersion.version(Constants.MIN_GRADLE_VERSION)
+if (minGradleVersionRequired > GradleVersion.current()) {
+    throw GradleException("Required Gradle V${Constants.MIN_GRADLE_VERSION} or above.")
+}
+println("Using Gradle version: " + GradleVersion.current())
